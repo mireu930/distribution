@@ -72,7 +72,7 @@
 								<div class="col-sm-12 col-md-4">
 									<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
 										<ul class="pagination">
-											<li class="paginate_button page-item previous disabled" id="dataTable_previous">
+											<li class="paginate_button page-item previous ${pager.start <= 1 ? 'disabled' : ''}" id="dataTable_previous">
 												<a href="./list?nowPage=${pager.start-1 }&search=${pager.search}&kind=${pager.kind}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">
 													Previous
 												</a>
