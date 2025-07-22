@@ -3,11 +3,15 @@ import {useState, useEffect} from "react";
 
 export default function List() {
     const [list, setList] = useState([]);
+    const [pager, setPager] = useState({});
 
     useEffect(()=>{
-        fetch("http://localhost:80/ingredients/api/list")
+        fetch("http://localhost:80/ingredients/list")
         .then((r)=> r.json())
-        .then((d)=> setList(d))
+        .then((d)=> {
+            setList(d.list);
+            setPager(d.pager);
+        })
         .catch((e)=> console.error("e:",e));
     },[]);
 
@@ -43,7 +47,7 @@ export default function List() {
           </table>
 
           {/* 페이징 */}
-          {/* <div className="row">
+          <div className="row">
             <div className="col-sm-12 col-md-4"></div>
             <div className="col-sm-12 col-md-4">
               <div className="dataTables_paginate paging_simple_numbers">
@@ -95,7 +99,7 @@ export default function List() {
                 </ul>
               </div>
             </div>
-          </div> */}
+          </div>
 
           <Link to="/" className="btn btn-secondary mt-3">
             <i className="fas fa-arrow-left"></i> 홈으로

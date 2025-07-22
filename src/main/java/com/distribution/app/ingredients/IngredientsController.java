@@ -23,8 +23,8 @@ public class IngredientsController {
 
 	private final IngredientsService ingredientsService;
 	
-	@GetMapping("/api/list")
-	public  List<IngredientsVO> getList(@RequestParam(name = "nowPage", defaultValue = "1") Long nowPage,
+	@GetMapping("/list")
+	public  IngredientsResponse getList(@RequestParam(name = "nowPage", defaultValue = "1") Long nowPage,
 								        @RequestParam(name = "pageSize",defaultValue = "10") Long pageSize,
 								        @RequestParam(name = "search",required = false) String search,
 								        @RequestParam(name = "kind",required = false) String kind
@@ -41,7 +41,7 @@ public class IngredientsController {
 	    
 	    log.info("l:{}",list);
 	    
-		return list;
+		return new IngredientsResponse(list, pager);
 	}
 	
 }
