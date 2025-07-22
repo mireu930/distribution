@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
+import {useState, useEffect} from "react";
 
 export default function List() {
+    const [list, setList] = useState([]);
+
+    useEffect(()=>{
+        fetch("http://localhost:80/ingredients/api/list")
+        .then((r)=> r.json())
+        .then((d)=> setList(d))
+        .catch((e)=> console.error("e:",e));
+    },[]);
+
     return (
        <div className="content">
       <div className="container my-5">
@@ -19,7 +29,7 @@ export default function List() {
               </tr>
             </thead>
             <tbody>
-              {/* {list.map((item) => (
+              {list.map((item) => (
                 <tr key={item.ingredientsId}>
                   <td>{item.ingredientsId}</td>
                   <td>{item.ingredientsName}</td>
@@ -28,7 +38,7 @@ export default function List() {
                     {item.ingredientsPrice.toLocaleString()} 원
                   </td>
                 </tr>
-              ))} */}
+              ))}
             </tbody>
           </table>
 
