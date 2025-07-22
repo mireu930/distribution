@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import {useState, useEffect} from "react";
+import axios from "axios";
 
 export default function List() {
     const [list, setList] = useState([]);
     const [pager, setPager] = useState({});
 
     useEffect(()=>{
-        fetch("http://localhost:80/ingredients/list")
-        .then((r)=> r.json())
+        axios
+        .get("http://localhost:80/ingredients/list")
         .then((d)=> {
-            setList(d.list);
-            setPager(d.pager);
+            setList(d.data.list);
+            setPager(d.data.pager);
         })
         .catch((e)=> console.error("e:",e));
     },[]);
