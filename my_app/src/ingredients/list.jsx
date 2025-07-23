@@ -1,28 +1,28 @@
 import { Link, useLocation } from "react-router-dom";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function List() {
-    const [list, setList] = useState([]);
-    const [pager, setPager] = useState({});
-    const location = useLocation();
+  const [list, setList] = useState([]);
+  const [pager, setPager] = useState({});
+  const location = useLocation();
 
-    useEffect(()=>{
-        const query = new URLSearchParams(location.search);
-        const nowPage = query.get("nowPage") || 1;
-        const search = query.get("search") || "";
-        const kind = query.get("kind") || "";
-        axios
-        .get(`http://localhost:80/ingredients/list?nowPage=${nowPage}&search=${search}&kind=${kind}`)
-        .then((d)=> {
-            setList(d.data.list);
-            setPager(d.data.pager);
-        })
-        .catch((e)=> console.error("e:",e));
-    },[location.search]);
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const page = query.get("page") || 1;
+    const size = query.get("size") || 10;
 
-    return (
-       <div className="content">
+    axios
+      .get(`http://localhost:80/ingredients/list?page=${page}&size=${size}`)
+      .then((res) => {
+        setList(res.data.list);
+        setPager(res.data.pager);
+      })
+      .catch((e) => console.error("e:", e));
+  }, [location.search]);
+
+  return (
+    <div className="content">
       <div className="container my-5">
         <div className="row g-4">
           <h2 className="mb-4">
@@ -44,9 +44,7 @@ export default function List() {
                   <td>{item.ingredientsId}</td>
                   <td>{item.ingredientsName}</td>
                   <td>{item.ingredientsStock}</td>
-                  <td>
-                    {item.ingredientsPrice.toLocaleString()} 원
-                  </td>
+                  <td>{item.ingredientsPrice.toLocaleString()} 원</td>
                 </tr>
               ))}
             </tbody>
@@ -58,45 +56,51 @@ export default function List() {
             <div className="col-sm-12 col-md-4">
               <div className="dataTables_paginate paging_simple_numbers">
                 <ul className="pagination">
+                  {/* 이전 버튼 */}
                   <li
                     className={`paginate_button page-item previous ${
                       pager.start <= 1 ? "disabled" : ""
                     }`}
                   >
                     <Link
-                      to={`/ingredients/list?nowPage=${pager.start - 1}&search=${pager.search}&kind=${pager.kind}`}
+                      to={`/ingredients/list?page=${pager.start - 1}&size=10`}
                       className="page-link"
                     >
                       Previous
                     </Link>
                   </li>
 
-                  {Array.from({ length: pager.end - pager.start + 1 }, (_, i) => {
-                    const page = pager.start + i;
-                    return (
-                      <li
-                        key={page}
-                        className={`paginate_button page-item ${
-                          pager.nowPage === page ? "active" : ""
-                        }`}
-                      >
-                        <Link
-                          to={`/ingredients/list?nowPage=${page}&search=${pager.search}&kind=${pager.kind}`}
-                          className="page-link"
+                  {/* 페이지 번호 */}
+                  {Array.from(
+                    { length: pager.end - pager.start + 1 },
+                    (_, i) => {
+                      const page = pager.start + i;
+                      return (
+                        <li
+                          key={page}
+                          className={`paginate_button page-item ${
+                            pager.nowPage === page ? "active" : ""
+                          }`}
                         >
-                          {page}
-                        </Link>
-                      </li>
-                    );
-                  })}
+                          <Link
+                            to={`/ingredients/list?page=${page}&size=10`}
+                            className="page-link"
+                          >
+                            {page}
+                          </Link>
+                        </li>
+                      );
+                    }
+                  )}
 
+                  {/* 다음 버튼 */}
                   <li
                     className={`paginate_button page-item next ${
                       pager.endCheck ? "disabled" : ""
                     }`}
                   >
                     <Link
-                      to={`/ingredients/list?nowPage=${pager.end + 1}&search=${pager.search}&kind=${pager.kind}`}
+                      to={`/ingredients/list?page=${pager.end + 1}&size=10`}
                       className="page-link"
                     >
                       Next
@@ -113,5 +117,5 @@ export default function List() {
         </div>
       </div>
     </div>
-    )
-} 
+  );
+}

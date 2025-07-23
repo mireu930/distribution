@@ -1,9 +1,20 @@
 package com.distribution.app.ingredients;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -14,27 +25,24 @@ import lombok.Data;
 public class IngredientsVO {
 
 	@Id
-	@Column(name = "INGREDIENTS_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ingredientsId;
 
-	@Column(name = "INGREDIENTS_NAME")
 	private String ingredientsName;
 
-	@Column(name = "INGREDIENTS_STOCK")
 	private Integer ingredientsStock;
 
-	@Column(name = "INGREDIENTS_PRICE")
 	private Integer ingredientsPrice;
 
-	@Column(name = "INGREDIENTS_DATE")
-	private Date ingredientsDate;
+	@CreatedDate
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	private LocalDateTime ingredientsDate;
 
-	@Column(name = "HISTORY_ID")
 	private Integer historyId;
 
-	@Column(name = "SAVE_NAME")
 	private String saveName;
 
-	@Column(name = "ORIGIN_NAME")
 	private String originName;
 }

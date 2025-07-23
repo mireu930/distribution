@@ -23,17 +23,16 @@ public class IngredientsService {
 		this.ingredientsRepository = ingredientsRepository;
 	}
 	
-	@Cacheable(cacheNames = "getIngredients",  key = "'ingredients:page:' + (#pager != null ? #pager.nowPage : 1) + ':size:' + (#pager != null ? #pager.page : 10)", cacheManager = "boardCacheManager")
-	public List<IngredientsVO> getList(Pager pager) {
-		if (pager == null) {
-	        throw new IllegalArgumentException("Pager must not be null");
-	    }
-		log.info("Pager in service: {}", pager);
-		pager.make();
-		Pageable pageable = PageRequest.of(pager.getNowPage().intValue()-1, pager.getPage().intValue());
-		Page<IngredientsVO> pageResult = ingredientsRepository.findAll(pageable);
-		pager.makeNum(pageResult.getTotalElements());
-		return pageResult.getContent();
+	@Cacheable(cacheNames = "getIngredients", key = "'ingredients:page:' + #p0 + ':size:' + #p1", cacheManager = "ingredientCacheManager")
+	public IngredientsResponse getList(int page, int size) {
+		Pageable pageable = PageRequest.of(page-1, size);
+		Page<IngredientsVO> pageResult = ingredientsRepository.findAllByOrderByIngredientsDateDesc(pageable);
+		
+		List<IngredientsVO> list = pageResult.getContent();
+		int totalCount = (int) pageResult.getTotalElements();
+		
+		Pager pager = new Pager(page, totalCount, size);
+		return new IngredientsResponse(list, pager);
 	}
 
 }

@@ -24,26 +24,12 @@ public class IngredientsController {
 	private final IngredientsService ingredientsService;
 	
 	@GetMapping("/list")
-	public  IngredientsResponse getList(@RequestParam(name = "nowPage", defaultValue = "1") Long nowPage,
-								        @RequestParam(name = "pageSize",defaultValue = "10") Long pageSize,
-								        @RequestParam(name = "search",required = false) String search,
-								        @RequestParam(name = "kind",required = false) String kind
+	public  IngredientsResponse getList( @RequestParam(name = "page",defaultValue = "1")int page, @RequestParam(name = "size",defaultValue = "10")int size
 								        ) throws Exception {
 		log.info("react 요청들어옴");
-		
-		Pager pager = new Pager();
-		log.info("Pager in controller: {}", pager);
-	    pager.setNowPage(nowPage);
-	    pager.setPage(pageSize);
-	    pager.setSearch(search);
-	    pager.setKind(kind);
-	    
-	    
-	    List<IngredientsVO> list = ingredientsService.getList(pager);
-	    
-	    log.info("l:{}",list);
-	    
-		return new IngredientsResponse(list, pager);
+		log.info("page={}, size={}", page, size);
+	    	    
+		return ingredientsService.getList(page, size);
 	}
 	
 }
