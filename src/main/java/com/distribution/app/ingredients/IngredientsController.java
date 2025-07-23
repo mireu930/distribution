@@ -30,7 +30,9 @@ public class IngredientsController {
 								        @RequestParam(name = "kind",required = false) String kind
 								        ) throws Exception {
 		log.info("react 요청들어옴");
+		
 		Pager pager = new Pager();
+		log.info("Pager in controller: {}", pager);
 	    pager.setNowPage(nowPage);
 	    pager.setPage(pageSize);
 	    pager.setSearch(search);

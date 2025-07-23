@@ -1,20 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {useState, useEffect} from "react";
 import axios from "axios";
 
 export default function List() {
     const [list, setList] = useState([]);
     const [pager, setPager] = useState({});
+    const location = useLocation();
 
     useEffect(()=>{
+        const query = new URLSearchParams(location.search);
+        const nowPage = query.get("nowPage") || 1;
+        const search = query.get("search") || "";
+        const kind = query.get("kind") || "";
         axios
-        .get("http://localhost:80/ingredients/list")
+        .get(`http://localhost:80/ingredients/list?nowPage=${nowPage}&search=${search}&kind=${kind}`)
         .then((d)=> {
             setList(d.data.list);
             setPager(d.data.pager);
         })
         .catch((e)=> console.error("e:",e));
-    },[]);
+    },[location.search]);
 
     return (
        <div className="content">
