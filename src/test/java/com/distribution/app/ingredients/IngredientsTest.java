@@ -2,6 +2,7 @@ package com.distribution.app.ingredients;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -18,10 +19,10 @@ class IngredientsTest {
 	@Test
 	void list() throws Exception {
 		IngredientsService ingredientsService = new IngredientsService(ingredientsRepository);
-//		Pager pager = new Pager();
-//		List<IngredientsVO> list = ingredientsService.getList(pager);
-//		int count = list.size();
-//		assertEquals(1, count);
+		
+		LocalDateTime dateTime = LocalDateTime.parse("2025-07-25T15:45:00");
+		
+		ingredientsService.input("설탕", 5, 200, dateTime);
 	}
 
 }

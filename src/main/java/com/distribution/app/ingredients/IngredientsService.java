@@ -41,7 +41,7 @@ public class IngredientsService {
 	public IngredientsVO input(String ingredeintsName, Integer ingredientsStock, Integer ingredientsPrice, LocalDateTime ingredientsDate) {
 		
 		IngredientsVO ingredientsVO = new IngredientsVO();
-		ingredientsVO.setOriginName(ingredeintsName);
+		ingredientsVO.setIngredientsName(ingredeintsName);
 		ingredientsVO.setIngredientsStock(ingredientsStock);
 		ingredientsVO.setIngredientsPrice(ingredientsPrice);
 		ingredientsVO.setIngredientsDate(ingredientsDate);
