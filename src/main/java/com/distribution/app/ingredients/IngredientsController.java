@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +25,7 @@ public class IngredientsController {
 
 	private final IngredientsService ingredientsService;
 	
-	@GetMapping("/list")
+	@GetMapping
 	public  IngredientsResponse getList( @RequestParam(name = "page",defaultValue = "1")int page, @RequestParam(name = "size",defaultValue = "10")int size
 								        ) throws Exception {
 		log.info("react 요청들어옴");
@@ -31,5 +33,13 @@ public class IngredientsController {
 	    	    
 		return ingredientsService.getList(page, size);
 	}
+	
+	@PostMapping
+	public IngredientsVO add(@RequestBody IngredientsRequest request) throws Exception {
+		return ingredientsService.input(request.getIngredientsName(),
+		        request.getIngredientsStock(),
+		        request.getIngredientsPrice(),
+		        request.getIngredientsDate());
+	};
 	
 }
