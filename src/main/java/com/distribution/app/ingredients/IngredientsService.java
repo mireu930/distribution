@@ -25,7 +25,7 @@ public class IngredientsService {
 		this.ingredientsRepository = ingredientsRepository;
 	}
 	
-	@Cacheable(cacheNames = "getIngredients", key = "'ingredients:page:' + #p0 + ':size:' + #p1", cacheManager = "ingredientCacheManager")
+	//@Cacheable(cacheNames = "getIngredients", key = "'ingredients:page:' + #p0 + ':size:' + #p1", cacheManager = "ingredientCacheManager")
 	public IngredientsResponse getList(int page, int size) {
 		Pageable pageable = PageRequest.of(page-1, size);
 		Page<IngredientsVO> pageResult = ingredientsRepository.findAllByOrderByIngredientsDateDesc(pageable);
