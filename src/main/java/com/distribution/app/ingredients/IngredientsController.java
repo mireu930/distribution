@@ -3,6 +3,7 @@ package com.distribution.app.ingredients;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +38,16 @@ public class IngredientsController {
 	}
 	
 	@PostMapping
-	public IngredientsVO add(@RequestBody IngredientsRequest request) throws Exception {
-		return ingredientsService.input(request.getIngredientsName(),
-		        request.getIngredientsStock(),
-		        request.getIngredientsPrice(),
-		        request.getIngredientsDate(),
-		        request.getImage());
+	public ResponseEntity<IngredientsVO>  add(@RequestBody IngredientsRequest request) throws Exception {
+		 IngredientsVO board = ingredientsService.input(
+			        request.getIngredientsName(),
+			        request.getIngredientsStock(),
+			        request.getIngredientsPrice(),
+			        request.getIngredientsDate(),
+			        request.getImage()
+			    );
+			    
+			    return ResponseEntity.ok().body(board);
 	};
 	
 }
