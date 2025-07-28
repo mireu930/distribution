@@ -47,6 +47,7 @@ dependencies {
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.1'
 }
 
 tasks.named('test') {

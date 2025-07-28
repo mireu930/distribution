@@ -2,6 +2,7 @@ package com.distribution.app.ingredients;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.distribution.app.page.Pager;
 
+import io.awspring.cloud.s3.S3Operations;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +41,8 @@ public class IngredientsController {
 		return ingredientsService.input(request.getIngredientsName(),
 		        request.getIngredientsStock(),
 		        request.getIngredientsPrice(),
-		        request.getIngredientsDate());
+		        request.getIngredientsDate(),
+		        request.getImage());
 	};
 	
 }
