@@ -15,6 +15,7 @@
 				<div class="container-fluid">
 					<h2>home</h2>
 					<a href="/ingredients/list">ingredients</a>
+					<img src="https://distribution-static-files.s3.ap-northeast-2.amazonaws.com/1753691852993.png">
 				</div>
 			</div>
 		</div>

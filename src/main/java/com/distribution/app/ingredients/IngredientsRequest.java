@@ -17,5 +17,4 @@ public class IngredientsRequest {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // 예: 2025-07-25T15:30:00
     private LocalDateTime ingredientsDate;
     private Integer historyId;
-    private MultipartFile image;
 }
