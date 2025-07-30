@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Github Actions 실행시켜보기
 
 on:
@@ -12,3 +13,8 @@ jobs:
     steps:
       - name: Hello World 찍기
         run: echo "Hello World"
+
+      - name: 여러 명령어문장작성하기
+        run: |
+          echo "Good"
+          echo "Morning"
