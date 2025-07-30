@@ -14,6 +14,11 @@ jobs:
       - name: Guthub Repo에 올린 파일을 불러오기
         uses: actions/checkout@v4
 
+      - name: Test
+        run: |
+            ls
+            pwd
+
       - name: JDK 17번전 설치
         uses: actions/setup-java@v4
         with:
@@ -29,27 +34,22 @@ jobs:
       - name: 빌드된 파일 이름변경
         run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
 
-      - name: SCP로 EC2에 빌드된 파일 전송
-        uses: appleboy/scp-action@v0.1.7
-        with:
-           host: ${{secrets.EC2_HOST}}
-           username: ${{secrets.EC2_USERNAME}}
-           key: ${{ secrets.EC2_PRIVATE_KEY }}
-           source: project.jar
-           target: /home/ubuntu/distribution/tobe
+      - name: 압축하기
+        run: tar -czvf $GITHUB_SHA.tar.gz project.jar appspec.yml scripts
 
-      - name: ssh로 ec2 접속
-        uses: appleboy/ssh-action@v1.0.3
+      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-            host: ${{secrets.EC2_HOST}}
-            username: ${{secrets.EC2_USERNAME}}
-            key: ${{ secrets.EC2_PRIVATE_KEY }}
-            script_stop: true
-            script: |
-                rm -rf /home/ubuntu/distribution/current
-                mkdir /home/ubuntu/distribution/current
-                mv /home/ubuntu/distribution/tobe/project.jar /home/ubuntu/distribution/current/project.jar
-                cd /home/ubuntu/distribution/current
-                sudo fuser -k -n tcp 8080 || true
-                nohup java -jar project.jar > ./output.log 2>&1 &
-                rm -rf /home/ubuntu/distribution/tobe
+           aws-region: ap-northeast-2
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: S3에 프로젝트 폴더 업로드하기
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://diestribution/$GITHUB_SHA.tar.gz
+
+      - name: Code Deploy를 활용해 EC2에 프로젝트 코드 배포
+        run: aws deploy create-deployment
+             --application-name ditribution
+             --deployment-config-name CodeDeployDefault.AllAtOnce
+             --deployment-group-name Production
+             --s3-location bucket=diestribution,bundleType=tgz,key=$GITHUB_SHA.tar.gz
