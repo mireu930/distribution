@@ -23,7 +23,7 @@ jobs:
             script_stop: true
             script: |
                 cd /home/ubuntu/distribution
-                rm -rf src/main/resources/applicaion-prod.properties
+                rm -rf src/main/resources/application-prod.properties
                 git pull origin react
                 echo "$APPLICATION_PROPERTIES" > src/main/resources/application-prod.properties
                 ./gradlew clean build
