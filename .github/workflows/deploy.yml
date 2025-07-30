@@ -24,7 +24,7 @@ jobs:
         run: echo "${{secrets.APPLICATION_PROPERTIES}}" > ./src/main/resources/application-prod.properties
 
       - name: 테스트 및 빌드
-        run: ./graldew clean build
+        run: ./gradlew clean build
 
       - name: 빌드된 파일 이름변경
         run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
