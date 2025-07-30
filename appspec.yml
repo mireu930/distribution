@@ -1,12 +1,12 @@
-version: 8.0
+version: 0.0
 os: linux
 
 files:
-   - source: /
-     destination: /home/ubuntu/distribution
-      
+  - source: /
+    destination: /home/ubuntu/distribution
+
 permissions:
-  - object: /
+  - object: /home/ubuntu/distribution
     owner: ubuntu
     group: ubuntu
 
