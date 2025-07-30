@@ -14,12 +14,6 @@ jobs:
       - name: Guthub Repo에 올린 파일을 불러오기
         uses: actions/checkout@v4
 
-      - name: Test
-        run: |
-            ls
-            pwd
-
-
       - name: JDK 17번전 설치
         uses: actions/setup-java@v4
         with:
@@ -49,12 +43,12 @@ jobs:
            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: S3에 프로젝트 폴더 업로드하기
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://diestribution/$GITHUB_SHA.tar.gz
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://distribution/$GITHUB_SHA.tar.gz
 
       - name: Code Deploy를 활용해 EC2에 프로젝트 코드 배포
         run: |
              aws deploy create-deployment \
-             --application-name ditribution \
+             --application-name distribution \
              --deployment-config-name CodeDeployDefault.AllAtOnce \
              --deployment-group-name Production \
-             --s3-location bucket=diestribution,bundleType=tgz,key=$GITHUB_SHA.tar.gz
+             --s3-location bucket=distribution,bundleType=tgz,key=$GITHUB_SHA.tar.gz
