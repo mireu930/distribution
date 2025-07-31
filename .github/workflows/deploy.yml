@@ -100,5 +100,5 @@ jobs:
       - name: CloudFront 캐시 무효화
         run: |
          aws cloudfront create-invalidation \
-         --distribution-id ${{secrets.CLOUD_FRONT_DISRIBUTION_ID}}} \
+         --distribution-id ${{secrets.CLOUD_FRONT_DISTRIBUTION_ID}} \
          --paths "/*"
