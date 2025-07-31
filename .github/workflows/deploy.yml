@@ -13,6 +13,17 @@ jobs:
     steps:
       - name: Guthub Repo에 올린 파일을 불러오기
         uses: actions/checkout@v4
+        
+      - name: 🔍 디렉토리 구조 확인용 (디버깅용 Step)
+        run: |
+          echo ":: 디렉토리 구조 ::"
+          ls -al
+          echo ":: distribution 디렉토리 안 ::"
+          ls -al distribution || true
+          echo ":: my_app 디렉토리 안 ::"
+          ls -al my_app || true
+          echo ":: distribution/my_app 디렉토리 안 ::"
+          ls -al distribution/my_app || true
 
       - name: JDK 17번전 설치
         uses: actions/setup-java@v4
