@@ -55,7 +55,22 @@ jobs:
              --deployment-config-name CodeDeployDefault.AllAtOnce \
              --deployment-group-name Production \
              --s3-location bucket=distribution3,bundleType=tgz,key=$GITHUB_SHA.tar.gz
-       
+
+      # --- ⬇️ 프론트엔드 빌드 단계 추가 ⬇️ ---
+      - name: Node 설치 (프론트 빌드용)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 프론트엔드 의존성 설치
+        run: npm install
+        working-directory: distribution/my_app
+
+      - name: 프론트엔드 빌드
+        run: npm run build
+        working-directory: distribution/my_app
+      # --- ⬆️ 프론트엔드 빌드 단계 추가 끝 ⬆️ ---
+
       # 웹 정적 리소스 업로드용
       - name: AWS Credentials 설정 (Web 정적 파일용)
         uses: aws-actions/configure-aws-credentials@v4
