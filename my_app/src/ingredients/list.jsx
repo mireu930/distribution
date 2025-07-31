@@ -13,7 +13,7 @@ export default function List() {
     const size = query.get("size") || 10;
 
     axios
-      .get(`http://52.78.210.76:8080//ingredients?page=${page}&size=${size}`)
+      .get(`http://52.78.210.76:8080/ingredients?page=${page}&size=${size}`)
       .then((res) => {
         setList(res.data.list);
         setPager(res.data.pager);
