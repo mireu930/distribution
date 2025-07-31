@@ -75,11 +75,11 @@ jobs:
 
       - name: 프론트엔드 의존성 설치
         run: npm install
-        working-directory: distribution/my_app
+        working-directory: ./my_app
 
       - name: 프론트엔드 빌드
         run: npm run build
-        working-directory: distribution/my_app
+        working-directory: ./my_app
       # --- ⬆️ 프론트엔드 빌드 단계 추가 끝 ⬆️ ---
 
       # 웹 정적 리소스 업로드용
@@ -94,7 +94,7 @@ jobs:
       - name: 정적 파일 재배포
         run: |
           aws s3 rm --recursive s3://distribution-web-page
-          aws s3 cp ./distribution/my_app/build s3://distribution-web-page/ --recursive
+          aws s3 cp ./my_app/build s3://distribution-web-page/ --recursive
 
       # CloudFront 캐시 무효화
       - name: CloudFront 캐시 무효화
