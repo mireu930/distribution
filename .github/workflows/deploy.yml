@@ -68,7 +68,7 @@ jobs:
       - name: 정적 파일 재배포
         run: |
           aws s3 rm --recursive s3://distribution-web-page
-          aws s3 cp ./my_app/build s3://distribution-web-page/ --recursive
+          aws s3 cp ./distribution/my_app/build s3://distribution-web-page/ --recursive
 
       # CloudFront 캐시 무효화
       - name: CloudFront 캐시 무효화
