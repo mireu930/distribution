@@ -88,6 +88,9 @@ jobs:
           aws-region: ap-northeast-2
           aws-access-key-id: ${{ secrets.AWS_WEB_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_WEB_SECRET_ACCESS_KEY }}
+ 
+      - name: S3 버킷 리스트 확인 (접근 권한 테스트)
+        run: aws s3 ls s3://distribution-web-page
 
       # S3 정적 파일 업로드
       - name: 정적 파일 재배포
