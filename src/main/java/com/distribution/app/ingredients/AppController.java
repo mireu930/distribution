@@ -13,6 +13,6 @@ public class AppController {
 
 	@GetMapping("/health")
 	public String healthCheck() {
-		return "Server ID: " + uniqueId;
+		return "Hello world";
 	}
 }
