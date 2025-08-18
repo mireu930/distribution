@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: spring-config
+  
+data:
+  db-host: dis-db.cxiyesuk2ujw.ap-northeast-2.rds.amazonaws.com
+  db-port: "3306"
+  db-name: "distribution"

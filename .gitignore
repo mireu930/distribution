@@ -1,4 +1,5 @@
 ###custom ###
+application.yml
 application-dev.properties
 application-prod.properties
 
