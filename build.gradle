@@ -51,3 +51,18 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// 맨 아래에 추가
+bootJar {
+    enabled = true
+    archiveClassifier = ''
+    archiveFileName = "${archivesBaseName}-${archiveVersion}.${archiveExtension}"
+}
+
+// WAR 관련 태스크 비활성화
+if (tasks.findByName('war')) {
+    war.enabled = false
+}
+if (tasks.findByName('bootWar')) {
+    bootWar.enabled = false
+}
