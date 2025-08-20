@@ -34,26 +34,29 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // JSP 관련
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'jakarta.servlet:jakarta.servlet-api'
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-// WAR 생성 강제 방지 및 JAR 생성 강제
+// WAR 비활성화 → JAR만 생성
 jar {
     enabled = false
 }
@@ -61,6 +64,11 @@ jar {
 bootJar {
     enabled = true
     archiveClassifier = ''
+}
+
+// bootBuildImage (도커 빌드) 비활성화
+tasks.named("bootBuildImage") {
+    enabled = false
 }
 
 // 모든 WAR 태스크 완전 제거
@@ -74,7 +82,6 @@ afterEvaluate {
 build {
     dependsOn bootJar
     finalizedBy {
-        // WAR 파일 생성되면 삭제
         delete fileTree('build/libs').include('**/*.war')
     }
 }
