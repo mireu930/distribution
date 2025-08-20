@@ -55,33 +55,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-// WAR 비활성화 → JAR만 생성
-jar {
-    enabled = false
-}
-
-bootJar {
-    enabled = true
-    archiveClassifier = ''
-}
-
-// bootBuildImage (도커 빌드) 비활성화
-tasks.named("bootBuildImage") {
-    enabled = false
-}
-
-// 모든 WAR 태스크 완전 제거
-afterEvaluate {
-    tasks.findAll { it.name.contains('war') || it.name.contains('War') }.each { task ->
-        task.enabled = false
-    }
-}
-
-// JAR만 생성하도록 강제
-build {
-    dependsOn bootJar
-    finalizedBy {
-        delete fileTree('build/libs').include('**/*.war')
-    }
-}
